@@ -1,0 +1,19 @@
+[project]
+name = "sxi-l4"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Zach",email = "tcare50@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "cyclopts (>=4.4.4,<5.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "sxi_l4", from = "src"}]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
