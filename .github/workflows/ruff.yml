@@ -1,4 +1,5 @@
 name: Ruff Linting
+run-name: ${{ github.actor }} is Linting with Ruff
 on: [ push, pull_request ]
 jobs:
   ruff-linting:
