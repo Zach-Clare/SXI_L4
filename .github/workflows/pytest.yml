@@ -1,0 +1,65 @@
+name: pytest Unit Testing
+run-name: ${{ github.actor }} is unit testing
+on: [ push, pull_request ]
+jobs:
+  pytesting:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the code 
+      - uses: actions/checkout@v4
+
+      # Make sure we're using the correct branch
+      - name: Switch to Current Branch
+        run: git checkout ${{env.BRANCH }}
+
+      # Get correct Python version
+      - name: Set up Python 3.14
+        uses: actions/setup-python@v6
+        with:
+          python-version: 3.14
+          
+      # Load cached poetry install
+      - name: Load cached Poetry installation
+        id: cached-poetry
+        uses: actions/cache@v4
+        with:
+          path: ~/.local  # the path depends on the OS
+          key: poetry-0  # increment to reset cache
+
+      # Get the Poetry package manager
+      - name: Install Poetry
+        if: steps.cached-poetry.outputs.cache-hit != 'true'
+        uses: snok/install-poetry@v1
+
+      # Configure our settings in a seperate step to catch new or cached versions
+      - name: Configure Poetry
+        run: |
+          poetry config virtualenvs.create true
+          poetry config virtualenvs.in-project true
+          poetry config virtualenvs.path .venv
+          poetry config installer.parallel true
+
+      # Attempt to load the dependencies rather than have to install them every time
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          
+      # Install dependencies if the venv cache missed
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction --no-root
+
+      # Install the root project, even if we have a cached venv
+      - name: Install root project
+        run: poetry install --no-interaction
+
+      # Do the testing and produce a summary file
+      - name: Test with pytest
+        uses: dariocurr/pytest-summary@main
+
+
+        
+          
