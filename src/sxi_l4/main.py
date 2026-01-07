@@ -1,11 +1,17 @@
 from astropy.io import fits
 from cyclopts import App
 
-from fit import Fit
+from src.sxi_l4.fit import Fit
 
 app = App()
 
 @app.default
+def help():
+    help_str = """Use the following commands:
+    fit: Creates and saves a result of a fitted image. Requires string argument of input FITS file location."""
+    print(help_str)
+
+@app.command
 def fit(filename: str):
     try:
         file = fits.open(filename)
@@ -21,4 +27,5 @@ def fit(filename: str):
     # and display the data
     print(result)
 
-app()
+if __name__ == "__main__":
+    app()
