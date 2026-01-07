@@ -57,8 +57,12 @@ jobs:
         run: poetry install --no-interaction
 
       # Do the testing and produce a summary file
+      # - name: Test with pytest
+      #   uses: dariocurr/pytest-summary@main
+      #   with:
+      #     paths: ${{ github.workspace }}/tests/**.py
       - name: Test with pytest
-        uses: dariocurr/pytest-summary@main
+        run: poetry run pytest
 
 
         
