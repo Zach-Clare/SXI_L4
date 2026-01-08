@@ -1,6 +1,6 @@
 # import pytest
 
-from src.sxi_l4.main import app
+# from src.sxi_l4.main import app
 
 # @pytest.fixture
 # def mock_fit_wharton2025(mocker):
