@@ -1,7 +1,7 @@
 from astropy.io import fits
 from cyclopts import App
 
-from src.sxi_l4.fit import Fit
+from sxi_l4.fit import Fit
 
 app = App()
 
@@ -15,8 +15,8 @@ def help():
 def fit(filename: str):
     try:
         file = fits.open(filename)
-    except(FileNotFoundError):
-        raise("Input file not found.")
+    except(FileNotFoundError) as e:
+        raise FileNotFoundError(e, "Input file not found.")
     
     input = file[0]
     

@@ -58,7 +58,7 @@ jobs:
 
       # Do the testing and produce a summary file
       - name: Test with pytest
-        run: poetry run pytest -ra >> $GITHUB_STEP_SUMMARY
+        run: poetry run pytest -ra --cov=sxi_l4 >> $GITHUB_STEP_SUMMARY
 
 
         
